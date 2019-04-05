@@ -10,6 +10,7 @@ using TEGram.Models;
 
 namespace TEGramApi.Controllers
 {
+    [Authorize]
     [Route("api/posts/{postId:int}/[controller]")]
     [ApiController]
     public class FavoritesController : TEGramController
@@ -20,6 +21,7 @@ namespace TEGramApi.Controllers
             this.favoriteDAO = favoriteDAO;
         }
 
+        [Route("/api/[controller]")]
         [HttpGet]
         public ActionResult GetFavorites()
         {

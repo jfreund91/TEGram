@@ -21,7 +21,7 @@
 <script>
 import PostAuthor from "@/components/posts/PostAuthor.vue";
 import PostGrid from "@/components/posts/PostGrid.vue";
-//import auth from "@/shared/auth.js";
+import auth from "@/shared/auth.js";
 
 export default {
   name: "favorites",
@@ -37,12 +37,16 @@ export default {
   },
   created() {
     // Call the API to get the user's favorites
-    fetch(VUE_APP_REMOTE_API, {
-      method: 'GET',
+    fetch(`${process.env.VUE_APP_REMOTE_API}/favorites`, {
+      // method: 'GET',
+      headers: {
+              "Authorization": 'Bearer ' + auth.getToken() 
+            }, 
     })
     .then((response) => {
       return response.json();
     }).then ((json) => {
+      console.log(JSON.stringify(json));      
       this.posts = json;
     })
   },
