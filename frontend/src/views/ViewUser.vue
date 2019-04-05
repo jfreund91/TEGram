@@ -15,7 +15,7 @@
       </div>
       <div id="profile-data">
         <p class="username">{{username}}</p>
-        <p><span class="posts"></span></p>
+        <p><span class="posts"  v-if="posts.length > 0">{{posts.length}} posts</span></p>
       </div>
     </div>
     <post-grid v-bind:posts="posts" />
