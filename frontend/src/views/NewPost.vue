@@ -18,16 +18,23 @@
   <div id="new-post" class="container">
     <h2>Upload a photo to share</h2>
     <form id="post-form">
-      <vue-dropzone id="dropzone" v-bind:options="dropzoneOptions"></vue-dropzone>
+      <vue-dropzone
+        id="dropzone"
+        v-bind:options="dropzoneOptions"
+        @vdropzone-file-added="afterComplete"
+        @vdropzone-sending="sending"
+        @vdropzone-success="success"
+      ></vue-dropzone>
       <input
         type="text"
         name="caption"
         id="caption"
         autocomplete="off"
         placeholder="Add a caption..."
-      />
+        v-model="post.caption"
+      >
       <div class="form-actions">
-        <button v-bind:disabled="!canPost" id="share">Share</button>
+        <button v-bind:disabled="!canPost" id="share" @click="submit">Share</button>
         <router-link to="/" tag="button">Cancel</router-link>
       </div>
     </form>
@@ -38,7 +45,7 @@
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 // Uncomment me for API Calls
-//import auth from "@/shared/auth.js";
+import auth from "@/shared/auth.js";
 
 export default {
   name: "new-post",
@@ -55,18 +62,42 @@ export default {
         thumbnailWidth: 250,
         maxFilesize: 2.0,
         acceptedFiles: ".jpg, .jpeg, .png, .gif",
-        uploadMultipe: false
+        uploadMultiple: false
       },
       post: {
         image: "",
         caption: ""
-      }
+      },
+      hasImage: false,
     };
   },
   computed: {
-    canPost() {}
+    canPost() {
+      return this.post.caption && this.hasImage;
+    }
   },
-  methods: {}
+  methods: {
+    afterComplete() {
+      this.hasImage = true;
+    },
+    sending: function(file, xhr, formData) {
+      formData.append("api_key", 714725446462368);
+      formData.append("timestamp", (Date.now() / 1000) | 0);
+      formData.append("upload_preset", "vg8sew4g");
+    },
+    success: function(file, response) {
+      this.post.image = response.secure_url;
+    },
+    submit() {
+      fetch(process.env.VUE_APP_REMOTE_API + '/post', {
+        method: 'POST',
+        headers: {
+          Authorization: "Bearer " + auth.getToken()
+        },
+        body: JSON.stringify(this.post)
+      })
+    }
+  }
 };
 </script>
 
