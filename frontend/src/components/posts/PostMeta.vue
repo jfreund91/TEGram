@@ -30,7 +30,7 @@
 
 <script>
 //Uncomment me to make API Calls
-//import auth from "@/shared/auth.js";
+import auth from "@/shared/auth.js";
 
 export default {
   name: "post-meta",
