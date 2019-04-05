@@ -6,6 +6,7 @@
   - Upon clicking a heart or a bookmark icon an API call should be made to 
     POST or DELETE a like OR
     POST or DELETE a favorite
+    Testing the branch
   - Both heart/bookmark icons are in the component but only one is visible
     at a time
   DEPENDENCIES:
