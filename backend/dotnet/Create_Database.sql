@@ -4,7 +4,6 @@ Deployment script for TEgram
 
 GO
 USE [master];
-
 GO
 
 GO

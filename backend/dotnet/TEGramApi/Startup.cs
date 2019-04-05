@@ -30,6 +30,8 @@ namespace TEGramApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
             // Add CORS policy allowing any origin
             services.AddCors(options =>
             {
@@ -106,7 +108,6 @@ namespace TEGramApi
 
             // Enables the middleware to check the incoming request headers.
             app.UseAuthentication();
-
 
             app.UseHttpsRedirection();
             app.UseMvc();
