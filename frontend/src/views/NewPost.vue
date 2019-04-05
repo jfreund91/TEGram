@@ -34,7 +34,7 @@
         v-model="post.caption"
       >
       <div class="form-actions">
-        <button v-bind:disabled="!canPost" id="share" @click="submit">Share</button>
+        <button v-bind:disabled="!canPost" id="share" @click.prevent="submit">Share</button>
         <router-link to="/" tag="button">Cancel</router-link>
       </div>
     </form>
@@ -89,12 +89,17 @@ export default {
       this.post.image = response.secure_url;
     },
     submit() {
-      fetch(process.env.VUE_APP_REMOTE_API + '/post', {
+      fetch(process.env.VUE_APP_REMOTE_API + '/posts', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: "Bearer " + auth.getToken()
         },
         body: JSON.stringify(this.post)
+      }).then((response) => {
+        if(response.ok) {
+          this.$router.push('/');
+        }
       })
     }
   }
