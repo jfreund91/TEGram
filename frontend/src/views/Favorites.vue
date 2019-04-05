@@ -12,7 +12,7 @@
 <template>
   <div id="favorites" class="container">
     <div class="favorite-user" v-for="user in users" v-bind:key="user.id">
-      <post-author :userName="user.userName" :userImage="user.posts[0].userImage"/>
+      <post-author :userName="user.userName" :userImage="user.userImage"/>
       <post-grid :posts="user.posts"/>
     </div>
   </div>
@@ -69,6 +69,7 @@ export default {
         if (user === null) {
           this.users.push( {
             'userName': post.userName,
+            'userImage': post.userImage,
             'posts': [post]
           });
         } 
