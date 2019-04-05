@@ -224,10 +224,5 @@ namespace TEGram.DAL
             comment.DateTimeStamp = Convert.ToDateTime(reader[prefix + "datetime_stamp"]);
             return comment;
         }
-
-        public void CreateComment(Comment comment1, object comment2)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

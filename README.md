@@ -1,7 +1,7 @@
 
 # TE-Gram Project
  
-Our entire IT team had the good fortune of hitting on a huge group PowerBall lottery ticket.  Unforntunately for us they have all resigned. Haaaaaayyyy
+Our entire IT team had the good fortune of hitting on a huge group PowerBall lottery ticket.  Unforntunately for us they have all resigned.
 
 They were in the middle of a very important project that has a deadline of Friday night and now we have no one to complete it.
 
