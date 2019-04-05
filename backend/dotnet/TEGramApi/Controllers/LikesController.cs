@@ -28,6 +28,23 @@ namespace TEGramApi.Controllers
             return likeDAO.GetAllLikesByPostId(postId);
         }
 
-       
+        // POST: api/posts/{postId}/Likes
+        [HttpPost]
+        [Authorize]
+        public int Like([FromRoute]int postId)
+        {
+            return likeDAO.LikePostByUserId(postId, CurrentUser.Id);
+        }
+
+        // DELETE: api/posts/{postId}/Likes
+        [HttpDelete]
+        [Authorize]
+        public int Unlike([FromRoute]int postId)
+        {
+            return likeDAO.UnlikePostByUserId(postId, CurrentUser.Id);
+        }
+
+
+
     }
 }

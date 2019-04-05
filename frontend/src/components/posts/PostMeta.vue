@@ -17,12 +17,36 @@
   <div class="post-meta">
     <div class="actions">
       <div class="like">
-        <font-awesome-icon v-show = "post.isLiked" v-on:click="changeLike(post.id)" v-bind:icon="['fas', 'heart']" size="lg" class="liked" />
-        <font-awesome-icon v-show = "!post.isLiked" v-on:click="changeLike(post.id)" v-bind:icon="['far', 'heart']" size="lg" class="unliked" />
+        <font-awesome-icon
+          v-show="post.isLiked"
+          v-on:click="changeLike(false)"
+          v-bind:icon="['fas', 'heart']"
+          size="lg"
+          class="liked"
+        />
+        <font-awesome-icon
+          v-show="!post.isLiked"
+          v-on:click="changeLike(true)"
+          v-bind:icon="['far', 'heart']"
+          size="lg"
+          class="unliked"
+        />
       </div>
       <div class="favor">
-        <font-awesome-icon v-show = "post.isFavored" v-on:click="changeFav(post.id)" v-bind:icon="['fas', 'bookmark']" size="lg" class="favored" />
-        <font-awesome-icon v-show = "!post.isFavored" v-on:click="changeFav(post.id)" v-bind:icon="['far', 'bookmark']" size="lg" class="unfavored" />
+        <font-awesome-icon
+          v-show="post.isFavored"
+          v-on:click="changeFav(false)"
+          v-bind:icon="['fas', 'bookmark']"
+          size="lg"
+          class="favored"
+        />
+        <font-awesome-icon
+          v-show="!post.isFavored"
+          v-on:click="changeFav(true)"
+          v-bind:icon="['far', 'bookmark']"
+          size="lg"
+          class="unfavored"
+        />
       </div>
     </div>
     <p class="likes">{{ post.numberOfLikes }} likes</p>
@@ -39,25 +63,33 @@ export default {
     post: Object
   },
   methods: {
-    changeLike(id) {
+    changeLike(postIsLiked) {
       this.post.isLiked = !this.post.isLiked;
-      updatePost(this.post.id,'likes');
+      this.updatePost('likes',postIsLiked);
     },
-    changeFav(id) {
+    changeFav(postIsFavorite) {
       this.post.isFavored = !this.post.isFavored;
-      updatePost(this.post.id,'favorites');
+      this.updatePost('favorites',postIsFavorite);
     },
-    updatePost(id,likes) {
-      fetch(`${VUE_APP_REMOTE_API}/posts/${this.post.id}/${likes}`, {
-        method:'POST',
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(this.post)
-      }).then((response))
-        return (response.JSON);
+    updatePost(likes,setTrue) {
+      fetch(`https://localhost:44326/api/posts/${this.post.id}/${likes}`, {
+        method:setTrue?'POST':'DELETE',
+        headers: {
+          "Content-Type":"application/json",
+          // A Header with our authentication token.
+          Authorization: "Bearer " + auth.getToken()
+          },
+          body: JSON.stringify(this.post)
+      }).then ((response) => {
+        if (likes === "likes"){
+          return response.json();
+        }
+      }) .then((json) => {
+          if (json != undefined) {
+            this.post.numberOfLikes = json;
+          }
       });
-      console.log(response)
     }
-
   }
 };
 </script>

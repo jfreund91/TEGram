@@ -20,8 +20,23 @@ namespace TEGramApi.Controllers
             this.favoriteDAO = favoriteDAO;
         }
 
-        
+        // POST: api/posts/{postId}/Favorite
+        [HttpPost]
+        [Authorize]
+        public void Favorite([FromRoute]int postId)
+        {
+            favoriteDAO.FavorPostByUserId(postId, CurrentUser.Id);
+        }
 
-       
+        // DELETE: api/posts/{postId}/Favorite
+        [HttpDelete]
+        [Authorize]
+        public void Disfavorite([FromRoute]int postId)
+        {
+            favoriteDAO.DisfavorPostByUserId(postId, CurrentUser.Id);
+        }
+
+
+
     }
 }
