@@ -12,8 +12,8 @@
 <template>
   <div id="favorites" class="container">
     <div class="favorite-user" v-for="user in users" v-bind:key="user.id">
-      <post-author />
-      <post-grid />
+      <post-author :userName="user.userName" :userImage="user.posts[0].userImage"/>
+      <post-grid :posts="user.posts"/>
     </div>
   </div>
 </template>
