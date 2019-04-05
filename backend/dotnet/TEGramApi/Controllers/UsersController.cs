@@ -30,7 +30,7 @@ namespace TEGramApi.Controllers
         {
             User searchResult = this.userDao.GetUser(username);
             
-            IList<Post> usersPosts = this.postDAO.GetAllPosts(searchResult.Id);
+            IList<Post> usersPosts = this.postDAO.GetAllPostsByUserId(searchResult.Id);
 
             UserPostsViewModel output = new UserPostsViewModel()
             {
