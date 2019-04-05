@@ -40,11 +40,24 @@ export default {
   },
   methods: {
     changeLike(id) {
-      this.post.isLiked = !this.post.isLiked
+      this.post.isLiked = !this.post.isLiked;
+      updatePost(this.post.id,'likes');
     },
     changeFav(id) {
-      this.post.isFavored = !this.post.isFavored
+      this.post.isFavored = !this.post.isFavored;
+      updatePost(this.post.id,'favorites');
+    },
+    updatePost(id,likes) {
+      fetch(`${VUE_APP_REMOTE_API}/posts/${this.post.id}/${likes}`, {
+        method:'POST',
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(this.post)
+      }).then((response))
+        return (response.JSON);
+      });
+      console.log(response)
     }
+
   }
 };
 </script>
