@@ -23,5 +23,6 @@ namespace TEGram.DAL
         /// </summary>
         /// <param name="commentId">The id of the comment to be deleted</param>
         void DeleteComment(int commentId);
+        void CreateComment(Comment comment1, object comment2);
     }
 }

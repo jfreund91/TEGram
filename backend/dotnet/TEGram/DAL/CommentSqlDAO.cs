@@ -82,135 +82,135 @@ namespace TEGram.DAL
             }
         }
 
-        //public void DeletePostCommentByUserId(int postId, int userId)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
+        public void DeletePostCommentByUserId(int postId, int userId)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-        //            SqlCommand cmd = new SqlCommand("DELETE comments WHERE post_id=@postId AND user_id=@userId", conn);
+                    SqlCommand cmd = new SqlCommand("DELETE comments WHERE post_id=@postId AND user_id=@userId", conn);
 
-        //            cmd.Parameters.AddWithValue("@postId", postId);
-        //            cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.Parameters.AddWithValue("@postId", postId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
 
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //        throw;
-        //    }
-        //}
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
 
-        //public IList<Comment> GetAllPostCommentsByPostId(int postId)
-        //{
-        //    IList<Comment> comments = new List<Comment>();
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
+        public IList<Comment> GetAllPostCommentsByPostId(int postId)
+        {
+            IList<Comment> comments = new List<Comment>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-        //            SqlCommand cmd = new SqlCommand("SELECT * FROM comments WHERE post_id=@postId", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM comments WHERE post_id=@postId", conn);
 
-        //            cmd.Parameters.AddWithValue("@postId", postId);
+                    cmd.Parameters.AddWithValue("@postId", postId);
 
-        //            SqlDataReader reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        //            while (reader.Read())
-        //            {
-        //                Comment comment = ConvertReaderToComment(reader);
-        //                comments.Add(comment);
-        //            }
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
+                    while (reader.Read())
+                    {
+                        Comment comment = ConvertReaderToComment(reader);
+                        comments.Add(comment);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
 
-        //        throw;
-        //    }
+                throw;
+            }
 
-        //    return comments;
-        //}
+            return comments;
+        }
 
-        //public Comment GetPostCommentsByUserId(int postId, int userId)
-        //{
-        //    Comment comment = new Comment();
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
+        public Comment GetPostCommentsByUserId(int postId, int userId)
+        {
+            Comment comment = new Comment();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-        //            SqlCommand cmd = new SqlCommand("SELECT * FROM comments WHERE post_id=@postId AND user_id=@userId", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM comments WHERE post_id=@postId AND user_id=@userId", conn);
 
-        //            cmd.Parameters.AddWithValue("@postId", postId);
-        //            cmd.Parameters.AddWithValue("@userId", userId);
+                    cmd.Parameters.AddWithValue("@postId", postId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
 
-        //            SqlDataReader reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        //            if (reader.Read())
-        //            {
-        //                comment = ConvertReaderToComment(reader);
-        //            }
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
+                    if (reader.Read())
+                    {
+                        comment = ConvertReaderToComment(reader);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
 
-        //        throw;
-        //    }
+                throw;
+            }
 
-        //    return comment;
-        //}
+            return comment;
+        }
 
-        //public Comment SavePostComment(Comment comment)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
+        public Comment SavePostComment(Comment comment)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-        //            try
-        //            {
-        //                SqlCommand cmd = new SqlCommand("INSERT INTO comments(post_id, user_id, message) VALUES(@postId, @userId, @message)", conn);
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("INSERT INTO comments(post_id, user_id, message) VALUES(@postId, @userId, @message)", conn);
 
-        //                cmd.Parameters.AddWithValue("@postId", comment.PostId);
-        //                cmd.Parameters.AddWithValue("@userId", comment.UserId);
-        //                cmd.Parameters.AddWithValue("@message", comment.Message);
+                        cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                        cmd.Parameters.AddWithValue("@userId", comment.UserId);
+                        cmd.Parameters.AddWithValue("@message", comment.Message);
 
-        //                cmd.ExecuteNonQuery();
-        //            }
-        //            catch(SqlException ex)
-        //            {
-        //                try
-        //                {
-        //                    SqlCommand cmd = new SqlCommand("UPDATE comments SET message=@message, datetime_stamp=@dateTimeStamp WHERE post_id=@postId And user_id=@userId", conn);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        try
+                        {
+                            SqlCommand cmd = new SqlCommand("UPDATE comments SET message=@message, datetime_stamp=@dateTimeStamp WHERE post_id=@postId And user_id=@userId", conn);
 
-        //                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
-        //                    cmd.Parameters.AddWithValue("@userId", comment.UserId);
-        //                    cmd.Parameters.AddWithValue("@message", comment.Message);
-        //                    cmd.Parameters.AddWithValue("@dateTimeStamp", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                            cmd.Parameters.AddWithValue("@userId", comment.UserId);
+                            cmd.Parameters.AddWithValue("@message", comment.Message);
+                            cmd.Parameters.AddWithValue("@dateTimeStamp", DateTime.Now);
 
-        //                    cmd.ExecuteNonQuery();
-        //                }
-        //                catch (SqlException exception)
-        //                {
-        //                    throw;
-        //                }
-        //            }
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (SqlException exception)
+                        {
+                            throw;
+                        }
+                    }
 
-        //        }
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //            throw;
-        //    }
-        //    return comment;
-        //}
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+            return comment;
+        }
 
         static internal Comment ConvertReaderToComment(SqlDataReader reader, string prefix = "")
         {
@@ -223,6 +223,11 @@ namespace TEGram.DAL
             comment.Message = Convert.ToString(reader[prefix + "message"]);
             comment.DateTimeStamp = Convert.ToDateTime(reader[prefix + "datetime_stamp"]);
             return comment;
+        }
+
+        public void CreateComment(Comment comment1, object comment2)
+        {
+            throw new NotImplementedException();
         }
     }
 }

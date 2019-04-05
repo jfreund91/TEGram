@@ -19,7 +19,7 @@
         <p class="timestamp">
           {{ post.dateTimeStamp | formatDate }}
         </p>
-      </div>
+      </div>   
     </div>
     <div class="comment" v-for="comment in post.comments" v-bind:key="comment.id">
       <img
@@ -41,11 +41,13 @@
 </template>
 
 <script>
+// import NewComment from '@/components/comments/NewComment';
 export default {
   name: "comment-feed",
   props: {
     post: Object
   },
+  // components:NewComment,
   filters: {
     /**
      * Accepts a timestamp and formats it to a user-friendly value based on the delta between now

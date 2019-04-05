@@ -12,6 +12,7 @@ namespace TEGramApi.Controllers
 {
     [Route("api/posts/{postId:int}/[controller]")]
     [ApiController]
+    [Authorize]
     public class CommentsController : TEGramController
     {
         private ICommentDAO commentDAO;
@@ -20,7 +21,7 @@ namespace TEGramApi.Controllers
             this.commentDAO = commentDAO;
         }
 
-       
+
 
         // DELETE: api/posts/{postId}/Comments/{id}
         [Route("/api/[controller]/{id}")]
@@ -29,5 +30,19 @@ namespace TEGramApi.Controllers
         {
             commentDAO.DeleteComment(id);
         }
+
+
+        [HttpPost()]
+        public ActionResult<Comment> Post([FromRoute]int postId, [FromBody]Comment comment)
+        {
+            comment.PostId = postId;
+            comment.UserId = CurrentUser.Id;
+            comment = commentDAO.CreateComment(comment);
+
+            return Created("", comment);
+
+        }
     }
+
+
 }

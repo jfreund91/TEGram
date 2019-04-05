@@ -9,15 +9,14 @@
 -->
 
 <template>
-  <form class="new-comment">
-    <input type="text" name="comment" id="comment" placeholder="Add a comment..." />
+  <form class="new-comment" v-on:submit.prevent="newComment">
+    <input type="text" name="comment" id="comment" v-model="comment" placeholder="Add a comment...">
     <button>Post</button>
   </form>
 </template>
 
 <script>
-//Uncomment me to make API call
-//import auth from "@/shared/auth.js";
+import auth from "@/shared/auth.js";
 
 export default {
   name: "new-comment",
@@ -29,7 +28,31 @@ export default {
       comment: ""
     };
   },
-  methods: {}
+  methods: {
+    newComment() {
+      let comment = {
+        message: this.comment
+      };
+
+      fetch(`${process.env.VUE_APP_REMOTE_API}/posts/${this.post.id}/comments`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + auth.getToken(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(comment)
+        }).then(response => {
+        return response.json()
+        }).then((json) => {
+          this.$emit('handleNewComment', json);
+          this.comment = "";
+        }).catch(error => {
+          console.error(error)
+        });
+    }
+
+
+  }
 };
 </script>
 

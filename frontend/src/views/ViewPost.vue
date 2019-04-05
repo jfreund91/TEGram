@@ -18,7 +18,7 @@
       <post-author v-bind:userName="post.userName" v-bind:userImage="post.userImage" />
       <comment-feed v-bind:post="post" />
       <post-meta v-bind:post="post" />
-      <new-comment v-bind:post="post" v-on:newComment="handleNewComment" />
+      <new-comment v-bind:post="post" v-on:handleNewComment="handleNewComment" />
     </div>
   </div>
 </template>
