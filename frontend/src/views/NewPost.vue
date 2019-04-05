@@ -11,6 +11,7 @@
     Cloudinary These values need to be added as headers somehoe to the image upload
       (API Key: 714725446462368, Upload Preset: vg8sew4g)
 
+
 -->
 
 <template>
