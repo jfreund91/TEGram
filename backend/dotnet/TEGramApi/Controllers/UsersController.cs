@@ -19,12 +19,26 @@ namespace TEGramApi.Controllers
             this.postDAO = postDAO;
         }
 
+        /// <summary>
+        /// Gets a user's info and posts given the username.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>UserPostViewModel</returns>
         // GET: api/Users/{username}
         [HttpGet("{username}", Name = "Get")]
         public UserPostsViewModel Get(string username)
         {
-            // TODO: Finish Me
-            return null;
+            User searchResult = this.userDao.GetUser(username);
+            
+            IList<Post> usersPosts = this.postDAO.GetAllPosts(searchResult.Id);
+
+            UserPostsViewModel output = new UserPostsViewModel()
+            {
+                Username = searchResult.Username,
+                Image = searchResult.Image,
+                UserPosts = usersPosts
+            };
+            return output;
         }
     }
 }
