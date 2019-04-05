@@ -17,12 +17,12 @@
   <div class="post-meta">
     <div class="actions">
       <div class="like">
-        <font-awesome-icon v-bind:icon="['fas', 'heart']" size="lg" class="liked" />
-        <font-awesome-icon v-bind:icon="['far', 'heart']" size="lg" class="unliked" />
+        <font-awesome-icon v-show = "post.isLiked" v-on:click="changeLike(post.id)" v-bind:icon="['fas', 'heart']" size="lg" class="liked" />
+        <font-awesome-icon v-show = "!post.isLiked" v-on:click="changeLike(post.id)" v-bind:icon="['far', 'heart']" size="lg" class="unliked" />
       </div>
       <div class="favor">
-        <font-awesome-icon v-bind:icon="['fas', 'bookmark']" size="lg" class="favored" />
-        <font-awesome-icon v-bind:icon="['far', 'bookmark']" size="lg" class="unfavored" />
+        <font-awesome-icon v-show = "post.isFavored" v-on:click="changeFav(post.id)" v-bind:icon="['fas', 'bookmark']" size="lg" class="favored" />
+        <font-awesome-icon v-show = "!post.isFavored" v-on:click="changeFav(post.id)" v-bind:icon="['far', 'bookmark']" size="lg" class="unfavored" />
       </div>
     </div>
     <p class="likes">{{ post.numberOfLikes }} likes</p>
@@ -38,7 +38,14 @@ export default {
   props: {
     post: Object
   },
-  methods: {}
+  methods: {
+    changeLike(id) {
+      this.post.isLiked = !this.post.isLiked
+    },
+    changeFav(id) {
+      this.post.isFavored = !this.post.isFavored
+    }
+  }
 };
 </script>
 
