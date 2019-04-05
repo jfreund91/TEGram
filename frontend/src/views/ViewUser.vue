@@ -11,14 +11,14 @@
   <div id="view-user" class="container">
     <div id="user-profile">
       <div id="profile-image">
-        <img class="profile-photo" />
+        <img class="profile-photo" v-bind:src="image" />
       </div>
       <div id="profile-data">
-        <p class="username"></p>
-        <p><span class="posts"></span></p>
+        <p class="username">{{username}}</p>
+        <p><span class="posts"  v-if="posts.length > 0">{{posts.length}} posts</span></p>
       </div>
     </div>
-    <post-grid />
+    <post-grid v-bind:posts="posts" />
   </div>
 </template>
 
@@ -44,7 +44,17 @@ export default {
    */
   created() {
     // Get the username from the url
+    this.username = this.$route.params.id;
+
     // Call /users/username in the API
+    fetch(process.env.VUE_APP_REMOTE_API + '/users/' + this.username, {
+      method: 'GET'
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      this.image = json.image;
+      this.posts = json.userPosts;
+    })
   }
 };
 </script>
