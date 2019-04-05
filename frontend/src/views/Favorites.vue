@@ -37,6 +37,14 @@ export default {
   },
   created() {
     // Call the API to get the user's favorites
+    fetch(VUE_APP_REMOTE_API, {
+      method: 'GET',
+    })
+    .then((response) => {
+      return response.json();
+    }).then ((json) => {
+      this.posts = json;
+    })
   },
   methods: {}
 };

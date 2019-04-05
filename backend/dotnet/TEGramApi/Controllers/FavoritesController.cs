@@ -20,8 +20,10 @@ namespace TEGramApi.Controllers
             this.favoriteDAO = favoriteDAO;
         }
 
-        
-
-       
+        [HttpGet]
+        public ActionResult GetFavorites()
+        {
+            return Ok(favoriteDAO.GetFavoritesByUserId(CurrentUser.Id));
+        }
     }
 }
