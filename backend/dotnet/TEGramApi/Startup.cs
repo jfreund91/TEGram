@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,21 +13,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-//using TEGramApi.DAL;
-using TEGramApi.Providers.Security;
 using TEGram.DAL;
+using TEGramApi.Providers.Security;
 
 namespace TEGramApi
 {
-    /// <summary>
-    /// The asp.net api startup class.
-    /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Creates a startup class instance.
-        /// </summary>
-        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,21 +28,8 @@ namespace TEGramApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        /// <summary>
-        /// Configures all of the services used by the application.
-        /// </summary>
-        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //Configures Swagger to look at the XmlComments above our methods
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "TEGram API", Version = "v1" });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-
             // Add CORS policy allowing any origin
             services.AddCors(options =>
             {
@@ -91,9 +68,8 @@ namespace TEGramApi
             services.AddTransient<IPostDAO>(m => new PostSqlDAO(defaultCS));
             services.AddTransient<IUserDAO>(m => new UserSqlDAO(defaultCS));
 
-            // TODO: Add dependency injection for all the DAO's 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Configure automatic model state validation
             // This prevents us from having to manually check model state in each action.
@@ -115,11 +91,6 @@ namespace TEGramApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// <summary>
-        /// Includes middleware configuration for the HTTP Request Pipeline.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -128,22 +99,14 @@ namespace TEGramApi
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TEGram API v1");
-            });
 
             app.UseCors("CorsPolicy");
 
             // Enables the middleware to check the incoming request headers.
             app.UseAuthentication();
+
 
             app.UseHttpsRedirection();
             app.UseMvc();
