@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      users: Array,
+      users: [],
       posts: Array
     };
   },
@@ -48,9 +48,36 @@ export default {
     }).then ((json) => {
       console.log(JSON.stringify(json));      
       this.posts = json;
+      this.uniqueUsers();
     })
   },
-  methods: {}
+  methods: {
+    findUser(userName) {
+      let theUser = null;
+      this.users.forEach(user => {
+        if (user.userName === userName) {
+          theUser = user;
+        }
+      });
+      return theUser;
+    },
+
+    uniqueUsers()  {      
+      this.posts.forEach(post => {
+        let user = this.findUser(post.userName);
+
+        if (user === null) {
+          this.users.push( {
+            'userName': post.userName,
+            'posts': [post]
+          });
+        } 
+        else {
+          user.posts.push(post);
+        }
+      });
+    }
+  }
 };
 </script>
 
