@@ -36,6 +36,12 @@ namespace TEGramApi.Controllers
             return postDAO.GetPostById(id, CurrentUser.Id);
         }
 
-
+        [HttpPost]
+        [Authorize]
+        public Post CreatePost([FromBody]Post post)
+        {
+            post.UserId = CurrentUser.Id;
+            return this.postDAO.CreatePost(post);
+        }
     }
 }
